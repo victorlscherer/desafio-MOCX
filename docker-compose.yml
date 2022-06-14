@@ -1,0 +1,17 @@
+version: "3"
+
+services:
+  mongo:
+    image: mongo
+    container_name: mongo
+    restart: always
+    ports:
+      - "27017:27017"
+
+  api:
+    build:
+      context: ./back
+      dockerfile: dockerfile
+    container_name: api
+    ports:
+      - "3000:3000"
