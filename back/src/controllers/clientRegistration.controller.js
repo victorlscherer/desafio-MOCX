@@ -3,7 +3,7 @@ import Client from "../models";
 const clientRegistration = async (req, res) => {
     const { name, cpf, age } = req.body;
 
-    const client = await Client.find({ cpf });
+    const client = await Client.find({ cpf: cpf });
 
     if (client.length) {
         return res.status(400).json({ "error": "Client already exists" });
