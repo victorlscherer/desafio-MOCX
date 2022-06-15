@@ -1,22 +1,36 @@
-version: "1"
-
 services:
   mongo-container:
-    image: mongo
-    container_name: mongo-container
-    restart: always
+    image: "mongo"
+
     ports:
       - "27017:27017"
-    volumes:
-      - ./data/mongo:/data/db
 
-  back:
-    image: node
-    container_name: client-registration
-    restart: always
-    ports:
-      - "3000:3000"
     volumes:
-      - ./back:/app
+      - /data:/data/db
+
+    environment:
+      - MONGO_INITDB_DATABASE="mocx"
+
+  backend:
+    build: "./back"
+
+    ports:
+      - "8080:8080"
+
     depends_on:
       - mongo-container
+
+    environment:
+      - PORT=8080
+
+  frontend:
+    build: ./front
+
+    ports:
+      - "3000:3000"
+
+    volumes:
+      - ./front/:/usr/share/nginx/html:ro
+
+    depends_on:
+      - backend

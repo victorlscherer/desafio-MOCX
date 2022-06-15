@@ -1,5 +1,5 @@
 import mongoose from 'mongoose';
 
-mongoose.connect('mongodb://host.docker.internal:27017/mocx_teste');
+mongoose.connect('mongodb://mongo-container/mocx');
 
 export default mongoose;
