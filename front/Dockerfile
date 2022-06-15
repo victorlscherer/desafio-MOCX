@@ -8,6 +8,4 @@ RUN yarn
 
 COPY . .
 
-RUN pwd && ls
-
 CMD ["yarn", "start"]

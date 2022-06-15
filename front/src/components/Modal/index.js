@@ -1,6 +1,7 @@
 import { Box, Button, Typography, Modal } from '@mui/material';
 import { useState } from 'react';
 import Form from '../Form';
+import FormUpdate from '../FormUpdate';
 
 const style = {
     modal: {
@@ -25,14 +26,14 @@ const style = {
     }
 }
 
-const ModalComponent = () => {
+const ModalComponent = ({ type, cpf, getClients }) => {
     const [open, setOpen] = useState(false);
     const handleOpen = () => setOpen(true);
     const handleClose = () => setOpen(false);
 
     return (
-        <div>
-            <Button variant="contained" sx={style.button} onClick={handleOpen}>+ Cliente</Button>
+
+        <>{type === 'create' ? (<div><Button variant="contained" sx={style.button} onClick={handleOpen}>+ Cliente</Button>
             <Modal
                 open={open}
                 onClose={handleClose}
@@ -43,11 +44,28 @@ const ModalComponent = () => {
                     <Typography variant="h4" id="modal-title">
                         Cadastro de cliente
                     </Typography>
-                    <Form handleClose={handleClose} />
+                    <Form handleClose={handleClose} getClients={getClients} />
                 </Box>
-            </Modal>
+            </Modal></div>)
+            :
+            (<div><Button variant="contained" size='small' color='success' onClick={handleOpen}>Editar</Button>
+                <Modal
+                    open={open}
+                    onClose={handleClose}
+                    aria-labelledby="simple-modal-title"
+                    aria-describedby="simple-modal-description"
+                >
+                    <Box p={1} sx={style.modal}>
+                        <Typography variant="h4" id="modal-title">
+                            Editar cliente
+                        </Typography>
+                        <FormUpdate handleClose={handleClose} cpf={cpf} getClients={getClients} />
+                    </Box>
+                </Modal></div>)
+        }
+        </>
 
-        </div>
+
     )
 
 };

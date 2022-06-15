@@ -10,7 +10,7 @@ const style = {
     }
 }
 
-const Header = () => {
+const Header = ({ getClients }) => {
     return (
         <Box sx={{ flexGrow: 1 }}>
             <AppBar position="static">
@@ -18,7 +18,7 @@ const Header = () => {
                     <Typography variant="h6">
                         MOCX - Clientes
                     </Typography>
-                    <ModalComponent />
+                    <ModalComponent type={"create"} getClients={getClients} />
                 </Toolbar>
             </AppBar>
         </Box>

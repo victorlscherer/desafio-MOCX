@@ -1,5 +1,7 @@
-import { Typography, Card, CardActions, CardContent, Button, Snackbar } from "@mui/material";
+import { Typography, Card, CardActions, CardContent, Button } from "@mui/material";
+import { toast } from 'react-toastify';
 import api from "../../services/api";
+import ModalComponent from "../Modal";
 
 const style = {
     card: {
@@ -12,25 +14,38 @@ const style = {
     },
 }
 
-const ClientCard = ({ client }) => {
+const ClientCard = ({ client, getClients }) => {
 
-    const { id, name, cpf, age } = client;
+    const { name, cpf, age } = client;
 
     const handleDelete = () => {
-        api.delete(`/delete/${id}`)
+
+        api.delete(`/delete/${cpf}`)
             .then(() => {
-                console.log('Cliente deletado com sucesso!');
+                toast('Cliente deletado com sucesso', {
+                    position: "top-right",
+                    autoClose: 2000,
+                    hideProgressBar: false,
+                    closeOnClick: true,
+                    pauseOnHover: true,
+                    draggable: true,
+                    progress: undefined,
+                });
+                getClients()
             }
             ).catch(err => {
                 console.log(err);
+                toast('Erro ao deletar cliente', {
+                    position: "top-right",
+                    autoClose: 2000,
+                    hideProgressBar: false,
+                    closeOnClick: true,
+                    pauseOnHover: true,
+                    draggable: true,
+                    progress: undefined,
+                });
             }
             );
-    }
-
-    const handleEdit = () => {
-
-        <Snackbar open={true} autoHideDuration={2000} message="Cliente editado com sucesso!" />
-
     }
 
     return (
@@ -47,8 +62,8 @@ const ClientCard = ({ client }) => {
                 </Typography>
             </CardContent>
             <CardActions>
-                <Button size="small" variant="contained" color="success" onClick={() => handleEdit()}>Editar</Button>
-                <Button size="small" variant="contained" color="error">Excluir</Button>
+                <ModalComponent type={"edit"} cpf={cpf} getClients={getClients} />
+                <Button size="small" variant="contained" sx={{ marginLeft: "10px" }} color="error" onClick={() => handleDelete()}>Excluir</Button>
             </CardActions>
         </Card>
     )

@@ -23,24 +23,44 @@ const style = {
 
 }
 
-const Form = ({ handleClose, getClients }) => {
+const FormUpdate = ({ handleClose, cpf, getClients }) => {
 
     const schema = yup.object().shape({
-        name: yup.string().required('O nome é obrigatório'),
-        cpf: yup.string().required('O CPF é obrigatório').matches(/^[0-9]{11}$/, 'O CPF deve conter apenas números'),
-        age: yup.number().required('A idade é obrigatória').positive().integer(),
+        name: yup.string(),
+        age: yup.string(),
     });
 
     const {
         register,
         handleSubmit,
-        formState: { errors },
     } = useForm({ resolver: yupResolver(schema) });
 
     const handleForm = (data) => {
-        api.post('/registration/', data)
+
+        if (data.name === '' && data.age === '') {
+            toast('Nenhum valor passado', {
+                position: "top-right",
+                autoClose: 2000,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: true,
+                progress: undefined,
+            });
+            handleClose();
+            return;
+        }
+
+        if (data.name === '') {
+            data = { age: data.age }
+        } else if (data.age === '') {
+            data = { name: data.name }
+        }
+
+
+        api.patch(`/update/${cpf}/`, data)
             .then(response => {
-                toast('Cliente cadastrado com sucesso', {
+                toast('Cliente atualizado com sucesso', {
                     position: "top-right",
                     autoClose: 2000,
                     hideProgressBar: false,
@@ -53,7 +73,7 @@ const Form = ({ handleClose, getClients }) => {
             })
             .catch(error => {
                 console.log(error);
-                toast('Erro ao cadastrar cliente', {
+                toast('Erro ao atualizar cliente', {
                     position: "top-right",
                     autoClose: 2000,
                     hideProgressBar: false,
@@ -65,6 +85,7 @@ const Form = ({ handleClose, getClients }) => {
             }
             );
         handleClose();
+
     };
 
 
@@ -72,9 +93,8 @@ const Form = ({ handleClose, getClients }) => {
         <div>
             <form onSubmit={handleSubmit(handleForm)}>
                 <Box sx={style.boxForm}>
-                    <TextField margin='normal' label="Nome" name="name" {...register("name")} error={!!errors.name} helperText={errors.name?.message} />
-                    <TextField margin='normal' label="CPF" name="cpf" {...register("cpf")} error={!!errors.cpf} helperText={errors.cpf?.message} />
-                    <TextField margin='normal' label="Idade" name="age" {...register("age")} error={!!errors.age} helperText={errors.age?.message} />
+                    <TextField margin='normal' label="Nome" name="name" {...register("name")} />
+                    <TextField margin='normal' label="Idade" name="age" {...register("age")} />
                 </Box>
                 <Box sx={style.boxButton}>
                     <Button type="submit" variant='contained' color='success' >Enviar</Button>
@@ -87,4 +107,4 @@ const Form = ({ handleClose, getClients }) => {
     )
 }
 
-export default Form;
+export default FormUpdate;
