@@ -1,5 +1,5 @@
 import mongoose from 'mongoose';
 
-mongoose.connect('mongodb://localhost/mocx_teste');
+mongoose.connect('mongodb://mongo-container/mocx');
 
 export default mongoose;
