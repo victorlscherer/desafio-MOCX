@@ -28,25 +28,31 @@ const style = {
 function App() {
   const [data, setData] = useState()
 
-  useEffect(() => {
+  const getClients = () => {
     api.get('/clients')
       .then(response => {
-        console.log(response)
+        setData(response.data)
       }
       )
       .catch(error => {
         console.log(error)
       }
       )
-  })
+  }
+
+  useEffect(() => {
+    getClients()
+  }, [])
+
+
   return (
     <div className="App">
-      <Header />
+      <Header getClients={getClients} />
       <Box sx={style.box}>
         <Grid container spacing={2} xs={12} sx={style.grid}>
-          {/* {data.map(client => (
-            <ClientCard key={client.id} client={client} />
-          ))} */}
+          {data && data.map(client => (
+            <ClientCard key={client._id} client={client} getClients={getClients} />
+          ))}
         </Grid>
       </Box>
     </div>
