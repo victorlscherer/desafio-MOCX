@@ -35,7 +35,7 @@ const ClientCard = ({ client, getClients }) => {
             }
             ).catch(err => {
                 console.log(err);
-                toast('Erro ao deletar cliente', {
+                toast(`${err.response.data.error}`, {
                     position: "top-right",
                     autoClose: 2000,
                     hideProgressBar: false,

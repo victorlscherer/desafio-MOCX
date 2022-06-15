@@ -73,7 +73,7 @@ const FormUpdate = ({ handleClose, cpf, getClients }) => {
             })
             .catch(error => {
                 console.log(error);
-                toast('Erro ao atualizar cliente', {
+                toast(`${error.response.data.error}`, {
                     position: "top-right",
                     autoClose: 2000,
                     hideProgressBar: false,
