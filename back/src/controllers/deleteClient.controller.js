@@ -3,7 +3,7 @@ import Client from "../models";
 const deleteClient = async (req, res) => {
     const { findCpf } = req.params;
 
-    const client = await Client.find({ findCpf });
+    const client = await Client.find({ cpf: findCpf });
 
     if (!client) {
         return res.status(400).json({
@@ -12,7 +12,7 @@ const deleteClient = async (req, res) => {
     }
 
     try {
-        const client = await Client.deleteOne({ findCpf });
+        const client = await Client.deleteOne({ cpf: findCpf });
         return res.status(204).send();
     }
 
