@@ -52,16 +52,18 @@ const Form = ({ handleClose, getClients }) => {
                 getClients()
             })
             .catch(error => {
-                console.log(error);
-                toast('Erro ao cadastrar cliente', {
-                    position: "top-right",
-                    autoClose: 2000,
-                    hideProgressBar: false,
-                    closeOnClick: true,
-                    pauseOnHover: true,
-                    draggable: true,
-                    progress: undefined,
-                });
+                console.log(error.response.data);
+                if (error.response.data.error === "Invalid CPF") {
+                    toast("CPF Inválido", {
+                        position: "top-right",
+                        autoClose: 2000,
+                        hideProgressBar: false,
+                        closeOnClick: true,
+                        pauseOnHover: true,
+                        draggable: true,
+                        progress: undefined,
+                    });
+                }
             }
             );
         handleClose();
