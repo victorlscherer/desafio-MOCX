@@ -4,6 +4,7 @@ import ClientCard from './components/ClientCard';
 import { Box, Grid } from '@mui/material';
 import { useEffect, useState } from 'react';
 import api from './services/api';
+import { toast } from 'react-toastify';
 
 
 
@@ -36,6 +37,15 @@ function App() {
       )
       .catch(error => {
         console.log(error)
+        toast(`${error.response.data.error}`, {
+          position: "top-right",
+          autoClose: 2000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+        });
       }
       )
   }
