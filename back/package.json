@@ -10,8 +10,8 @@
     "nodemon": "^2.0.16"
   },
   "scripts": {
-    "dev": "node src/app.js",
-    "start": "nodemon --experimental-specifier-resolution=node src/app.js"
+    "start": "node src/app.js",
+    "dev": "nodemon --experimental-specifier-resolution=node src/app.js"
   },
   "type": "module"
 }
